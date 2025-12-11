@@ -1,0 +1,23 @@
+# .gitignore (recommended)
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+venv/
+.env
+
+# dbt
+target/
+dbt_modules/
+logs/
+run_results.json
+
+# OS / Editor
+.DS_Store
+.vscode/
+.idea/
+
+# Pipenv / Poetry / lock files (if applicable)
+pip-wheel-metadata/
+poetry.lock
+Pipfile.lock
