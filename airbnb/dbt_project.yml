@@ -41,6 +41,8 @@ on-run-start: #This is a hook that runs at the start of each dbt run, We have cr
 
 models:
   airbnb:
+    +grants: # Specifies default access permissions for models in this project
+      SELECT: ["transform", "reporter"] #I want to grant select to my transform role, which is my DBT user, and also the reporter role which will be my BI connectors user
     +post-hook:
       - "INSERT INTO {{ target.schema }}.audit_log VALUES ('{{ this }}', CURRENT_TIMESTAMP)"
     +materialized: view
