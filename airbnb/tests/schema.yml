@@ -4,7 +4,8 @@ models:
       - minimum_row_count:
           arguments:
             min_row_count: 1000 # Custom Generic Test from tests/generic/minimum_row_count.sql
-          severity: warn #this test if fails will only give a warning not fail the run of the whole datapipeline, can place error instead of warn
+          config:  
+            severity: warn #this test if fails will only give a warning not fail the run of the whole datapipeline, can place error instead of warn
     description: Cleansed table which contains Airbnb listings.
     columns:
       - name: listing_id
