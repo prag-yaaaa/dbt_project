@@ -19,7 +19,7 @@ macro-paths: ["macros"]
 snapshot-paths: ["snapshots"]
 asset-paths: ["assets"]
 
-target-path: "target"         # directory to store compiled SQL and run results
+target-path: "target"        # directory to store compiled SQL and run results
 clean-targets:         # directories to be removed by `dbt clean`
   - "target"
   - "dbt_packages"
@@ -33,16 +33,13 @@ clean-targets:         # directories to be removed by `dbt clean`
 # files using the `{{ config(...) }}` macro.
 
 on-run-start: #This is a hook that runs at the start of each dbt run, We have created a audit log table to log the model name and timestamp of the run
-  - "CREATE TABLE IF NOT EXISTS {{ target.schema }}.audit_log (
-      model_name STRING,
-      run_timestamp TIMESTAMP
-    )"
+  - "CREATE TABLE IF NOT EXISTS {{ target.schema }}.audit_log ( model_name STRING, run_timestamp TIMESTAMP)"
 
 
 models:
   airbnb:
     +grants: # Specifies default access permissions for models in this project
-      SELECT: ["transform", "reporter"] #I want to grant select to my transform role, which is my DBT user, and also the reporter role which will be my BI connectors user
+      select: ["transform", "reporter"] #I want to grant select to my transform role, which is my DBT user, and also the reporter role which will be my BI connectors user
     +post-hook:
       - "INSERT INTO {{ target.schema }}.audit_log VALUES ('{{ this }}', CURRENT_TIMESTAMP)"
     +materialized: view
@@ -51,6 +48,6 @@ models:
     src:
       +materialized: ephemeral
 
-#tests:
-  #+store_failures: true
-  #+schema: _test_failures # if you do not want to store the test failures in the default "public" schema, you can specify a different schema here
+data_tests:
+  +store_failures: true
+  +schema: _test_failures # if you do not want to store the test failures in the default "public" schema, you can specify a different schema here
